@@ -1,8 +1,10 @@
 require("dotenv").config(); // Load environment variables
 const io = require("socket.io")(process.env.PORT || 3000, {
   cors: {
-    origin: process.env.URL, // Allowed client origin
-    methods: ["GET", "POST"],
+    origin: process.env.URL || "*", // Allow configured URL or all origins as fallback
+    methods: ["GET", "POST"], 
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
   },
 });
 
