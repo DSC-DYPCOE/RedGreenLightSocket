@@ -11,11 +11,11 @@ let slotParagraphs = {}; // Map slot IDs to assigned paragraphs
 
 // Predefined paragraphs
 const paragraphs = [
-  "Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-  "Paragraph 2: Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.",
-  "Paragraph 3: Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.",
-  "Paragraph 4: Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero.",
-  "Paragraph 5: Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor.",
+  "In Squid Game, players must remain perfectly still when the giant doll turns around. Any movement detected means instant elimination.",
+  "The rules are simple: move during red light and you're eliminated. Only move when the light is green. Stay focused and control your movements.",
+  "456 players entered the game seeking the ultimate prize. Many failed at this first challenge, unable to control their trembling bodies.",
+  "The giant doll's song echoes through the field: 'Red light, green light, 1-2-3!' Each note could be your last if you're not careful.",
+  "The stakes are life and death. One wrong move, one slight tremor, and it's game over. Keep your eyes on the prize and stay absolutely still.",
 ];
 
 // Utility function to randomly assign a paragraph to a slot
@@ -50,6 +50,15 @@ io.on("connection", (socket) => {
       isGreen: lightStates[slotId],
     }); // Notify all clients
     console.log(`Light for slot ${slotId} is now ${lightStates[slotId] ? "green" : "red"}`);
+  });
+
+  socket.on("score-update", (data) => {
+    // Broadcast the score update to all connected clients
+    io.emit("leaderboard-update", {
+      slotId: data.slotId,
+      username: data.username,
+      score: data.score
+    });
   });
 
   socket.on("disconnect", () => {
